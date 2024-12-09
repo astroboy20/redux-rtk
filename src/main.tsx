@@ -12,6 +12,22 @@ interface PokemonListing {
   }>;
 }
 
+interface PokemonDetails {
+  id: number;
+  name: string;
+  height: number;
+  weight: number;
+  sprites: {
+    front_default: string;
+  };
+  types: Array<{
+    type: {
+      name: string;
+    };
+  }>;
+}
+
+
 const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "https://pokeapi.co/api/v2/" }),
   endpoints: (build) => ({
@@ -26,8 +42,8 @@ const api = createApi({
         };
       },
     }),
-    pokemonDetails: build.query({
-      query({ name }: string | number | any) {
+    pokemonDetails: build.query<PokemonDetails, { name: string }>({
+      query({ name }) {
         return `pokemon/${name}/`;
       },
     }),
